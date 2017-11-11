@@ -535,7 +535,7 @@ var Map = function (_Component) {
           mapId = _props.mapId;
 
 
-      var map = new window.google.maps.Map(document.getElementById(mapId), {
+      var map = new window.google.maps.Map(this.refs[this.props.mapId], {
         zoom: mapZoom,
         center: mapCenter
       });
@@ -544,7 +544,7 @@ var Map = function (_Component) {
     key: 'render',
     value: function render() {
 
-      return _react2.default.createElement('div', { style: this.props.mapStyle, id: this.props.mapId });
+      return _react2.default.createElement('div', { style: this.props.mapStyle, ref: this.props.mapId });
     }
   }]);
 

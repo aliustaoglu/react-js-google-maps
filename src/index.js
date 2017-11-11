@@ -5,7 +5,7 @@ class Map extends Component {
   componentDidMount() {
     const {mapZoom, mapCenter, mapId} = this.props;
 
-    const map = new window.google.maps.Map(document.getElementById(mapId), {
+    const map = new window.google.maps.Map(this.refs[this.props.mapId], {
       zoom: mapZoom,
       center: mapCenter
     });
@@ -14,7 +14,7 @@ class Map extends Component {
   render() {
 
     return (
-      <div style={this.props.mapStyle} id={this.props.mapId}>
+      <div style={this.props.mapStyle} ref={this.props.mapId}>
         
       </div>
     );
