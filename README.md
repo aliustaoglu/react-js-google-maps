@@ -1,17 +1,53 @@
-Simple React JS Google Maps API
+# React Js Guitar Chords
+Lazy loading Google Maps API Wrapper for React.JS. 
 
-# REQUIREMENTS
-Google Maps API:
+All I needed was a simple React component that initiates Google Maps API without any dependencies other than React or Google. I want is to pass my props to my component and handle the rest with the Google API. So I wrote this simple library.
 
-It needs to have 
-`<script async defer src="https://maps.googleapis.com/maps/api/js?key=##MYKEY##"></script>`
-in the index.html (or the file that runs the React App)
+The component needs an id for the div that will wrap the canvas object created by Google Maps API. mapOptions is the object that you normally pass onto google while you're creating a new map. It will also need some styling(either style or className) for this div. That's all. The rest we will do with the Google API.
 
-#PROPS and default values
-Map could be initialized with below. All optinal. But default values will be used if opted out.
+Prop Types
+```json
+{
+    id: PropTypes.string.isRequired,
+    apiKey: PropTypes.string.isRequired,
+    mapOptions: PropTypes.object,
+    className: PropTypes.string,
+    style: PropTypes.object
+}
+```
 
-mapZoom: 4,
-mapCenter: {lat: -8.7463596, lng: 115.1679037 },
-mapId: "reactJsGoogleMap",
-mapClassName: '',
-mapStyle: {}
+Usage is simple:
+```js
+import React, { Component } from 'react';
+import Map from 'react-js-google-maps';
+
+const setMarker = () => {
+  var uluru = { lat: -25.363, lng: 131.044 };
+  var marker = new window.google.maps.Marker({
+    position: uluru,
+    map: window.gmaps['map1'].gmap
+  });
+};
+
+/*
+May be Some react code here
+*/
+render() {
+    const mapOptions = {
+      zoom: 4,
+      center: { lat: -25.363, lng: 131.044 }
+    }
+    return (
+      <div>
+        <Map
+          id="map1"
+          apiKey="AIzaSyDnZHCNVuYH8lZSMZtuHzJ4677eUi6AE8w"
+          mapOptions= {mapOptions}
+          style={{ width: 500, height: 300, float: "left" }}
+        /> 
+        <button onClick={setMarker}>SET MARKER</button>
+      </div>
+    );
+  }
+
+```

@@ -499,6 +499,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(6);
@@ -515,67 +517,93 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * React-JS-Google-Maps
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * author: Cuneyt Aliustaoglu
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Uses lazy loading of google maps API.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * If there are more than one components in the page API won't be loaded multiple times
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Simple wrapper for React and no external dependencies other than React
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * All Google API functionalities can be passed onto this component
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var Map = function (_Component) {
-  _inherits(Map, _Component);
 
-  function Map() {
-    _classCallCheck(this, Map);
+window.gmaps = {};
 
-    return _possibleConstructorReturn(this, (Map.__proto__ || Object.getPrototypeOf(Map)).apply(this, arguments));
+// to trigger rendering of all map components(one or more than one) after Google Maps API is loaded
+window.initializeGoogleMaps = function (sender) {
+  for (var map in window.gmaps) {
+    window.gmaps[map].setState({ isGoogleInitiated: true });
+  }
+};
+
+var ReactJSGoogleMaps = function (_Component) {
+  _inherits(ReactJSGoogleMaps, _Component);
+
+  function ReactJSGoogleMaps(props) {
+    _classCallCheck(this, ReactJSGoogleMaps);
+
+    var _this = _possibleConstructorReturn(this, (ReactJSGoogleMaps.__proto__ || Object.getPrototypeOf(ReactJSGoogleMaps)).call(this, props));
+
+    _this.state = {
+      isGoogleInitiated: false
+    };
+    return _this;
   }
 
-  _createClass(Map, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _props = this.props,
-          mapZoom = _props.mapZoom,
-          mapCenter = _props.mapCenter,
-          mapId = _props.mapId;
-
-
-      var map = new window.google.maps.Map(this.refs[this.props.mapId], {
-        zoom: mapZoom,
-        center: mapCenter
-      });
+  _createClass(ReactJSGoogleMaps, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var isMapsEmpty = Object.keys(window.gmaps).length === 0 && window.gmaps.constructor === Object;
+      if (!window.google && isMapsEmpty) {
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://maps.google.com/maps/api/js?key=' + this.props.apiKey + '&callback=initializeGoogleMaps';
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+      }
+      window.gmaps[this.props.id] = this;
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      if (window.google) {
+        this.gmap = new window.google.maps.Map(document.getElementById(this.props.id), _extends({}, this.props.mapOptions));
+      }
     }
   }, {
     key: 'render',
     value: function render() {
+      var _props = this.props,
+          className = _props.className,
+          style = _props.style,
+          id = _props.id;
 
-      return _react2.default.createElement('div', { style: this.props.mapStyle, ref: this.props.mapId });
+      return _react2.default.createElement('div', { id: id, style: style, className: className });
     }
   }]);
 
-  return Map;
+  return ReactJSGoogleMaps;
 }(_react.Component);
 
-Map.defaultProps = {
-  mapZoom: 4,
-  mapCenter: { lat: -8.7463596, lng: 115.1679037 },
-  mapId: "reactJsGoogleMap",
-  mapClassName: '',
-  mapStyle: {}
+ReactJSGoogleMaps.defaultProps = {
+  style: {},
+  className: '',
+  mapOptions: {
+    zoom: 1,
+    center: { lat: 0, lng: 0 }
+  }
 };
 
-Map.PropTypes = {
-  mapZoom: _propTypes2.default.number,
-  mapCenter: _propTypes2.default.object,
-  mapId: _propTypes2.default.string,
-  mapClassName: _propTypes2.default.string,
-  mapStyle: _propTypes2.default.object
+ReactJSGoogleMaps.propTypes = {
+  id: _propTypes2.default.string.isRequired,
+  apiKey: _propTypes2.default.string.isRequired,
+  mapOptions: _propTypes2.default.object,
+  className: _propTypes2.default.string,
+  style: _propTypes2.default.object
 };
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {};
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {};
-};
-
-exports.default = Map;
+exports.default = ReactJSGoogleMaps;
 
 /***/ }),
 /* 8 */
