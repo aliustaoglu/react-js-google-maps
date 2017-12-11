@@ -1,5 +1,9 @@
-# React Js Guitar Chords
+![React Js Google Maps](https://raw.githubusercontent.com/aliustaoglu/react-js-google-maps/master/img/react-js-google-maps.png)
+
+# React Js Google Maps
 Lazy loading Google Maps API Wrapper for React.JS. 
+
+# [Click For the Online Demo](https://stackblitz.com/edit/react-ohakbs?embed=1&file=index.js)
 
 All I needed was a simple React component that initiates Google Maps API without any dependencies other than React or Google. I want is to pass my props to my component and handle the rest with the Google API. So I wrote this simple library.
 
