@@ -1,4 +1,4 @@
-![React Js Google Maps](https://raw.githubusercontent.com/aliustaoglu/react-js-google-maps/master/img/react-js-google-maps.png)
+![react-js-google-maps](https://raw.githubusercontent.com/aliustaoglu/react-js-google-maps/master/img/react-js-google-maps.png)
 
 # React Js Google Maps
 Lazy loading Google Maps API Wrapper for React.JS. 
