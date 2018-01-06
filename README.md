@@ -37,21 +37,30 @@ const setMarker = () => {
 May be Some react code here
 */
 render() {
-    const mapOptions = {
-      zoom: 4,
-      center: { lat: -25.363, lng: 131.044 }
-    }
-    return (
-      <div>
-        <Map
-          id="map1"
-          apiKey="AIzaSyDnZHCNVuYH8lZSMZtuHzJ4677eUi6AE8w"
-          mapOptions= {mapOptions}
-          style={{ width: 500, height: 300, float: "left" }}
-        /> 
-        <button onClick={setMarker}>SET MARKER</button>
-      </div>
-    );
+  const mapOptions = {
+    zoom: 4,
+    center: { lat: -25.363, lng: 131.044 }
   }
+  // You can make API calls to load your data into the map
+  // after the map is initialized
+  onMapLoad() {
+    setMarker();
+  }
+  return (
+    <div>
+      <Map
+        id="map1"
+        apiKey="MY_API_KEY"
+        mapOptions={mapOptions}
+        style={{ width: '100%', height: 480 }}
+        onLoad={this.onMapLoad}
+      />
+    </div>
+  );
+}
 
 ```
+
+# Version History:
+No history info until 1.5.1
+1.5.2: Added onLoad prop to trigger a custom event when the map is ready.

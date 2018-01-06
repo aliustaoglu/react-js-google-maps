@@ -1,6 +1,6 @@
 {
   "name": "react-js-google-maps",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Simple google maps for React.Js",
   "main": "build/index.js",
   "dependencies": {},
@@ -21,6 +21,8 @@
     "prop-types": "^15.6.0",
     "react": "^15.5.4",
     "react-addons-test-utils": "^15.6.2",
+    "react-dom": "^15.5.4",
+    "react-test-renderer": "^15.5.0",
     "webpack": "^2.6.1"
   },
   "scripts": {

@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 window.gmaps = {};
+export const google = window.google;
 
 // to trigger rendering of all map components(one or more than one) after Google Maps API is loaded
 window.initializeGoogleMaps = sender => {
@@ -44,6 +45,7 @@ class ReactJSGoogleMaps extends Component {
       this.gmap = new window.google.maps.Map(document.getElementById(this.props.id), {
         ...this.props.mapOptions
       });
+      this.props.onLoad(this.gmap);
     }
   }
 
@@ -59,7 +61,8 @@ ReactJSGoogleMaps.defaultProps = {
   mapOptions: {
     zoom: 1,
     center: { lat: 0, lng: 0 }
-  }
+  },
+  onLoad: () => {}
 };
 
 ReactJSGoogleMaps.propTypes = {
@@ -67,7 +70,8 @@ ReactJSGoogleMaps.propTypes = {
   apiKey: PropTypes.string.isRequired,
   mapOptions: PropTypes.object,
   className: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
+  onLoad: PropTypes.func
 };
 
 export default ReactJSGoogleMaps;

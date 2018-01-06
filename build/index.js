@@ -498,6 +498,7 @@ module.exports = require("react");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.google = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -528,6 +529,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 window.gmaps = {};
+var google = exports.google = window.google;
 
 // to trigger rendering of all map components(one or more than one) after Google Maps API is loaded
 window.initializeGoogleMaps = function (sender) {
@@ -569,6 +571,7 @@ var ReactJSGoogleMaps = function (_Component) {
     value: function componentDidUpdate() {
       if (window.google) {
         this.gmap = new window.google.maps.Map(document.getElementById(this.props.id), _extends({}, this.props.mapOptions));
+        this.props.onLoad(this.gmap);
       }
     }
   }, {
@@ -592,7 +595,8 @@ ReactJSGoogleMaps.defaultProps = {
   mapOptions: {
     zoom: 1,
     center: { lat: 0, lng: 0 }
-  }
+  },
+  onLoad: function onLoad() {}
 };
 
 ReactJSGoogleMaps.propTypes = {
@@ -600,7 +604,8 @@ ReactJSGoogleMaps.propTypes = {
   apiKey: _propTypes2.default.string.isRequired,
   mapOptions: _propTypes2.default.object,
   className: _propTypes2.default.string,
-  style: _propTypes2.default.object
+  style: _propTypes2.default.object,
+  onLoad: _propTypes2.default.func
 };
 
 exports.default = ReactJSGoogleMaps;
